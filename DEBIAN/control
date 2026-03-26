@@ -1,0 +1,21 @@
+Package: gnome-debian-session
+Version: 48.0-1+deb13u1
+Architecture: all
+Maintainer: Yoshiki Takahashi
+Installed-Size: 114
+Depends: adwaita-icon-theme, fonts-cantarell, gnome-session-bin (<< 49~), gnome-session-bin (>= 48.0-1+deb13u1), gnome-session-common (= 48.0-1+deb13u1), gnome-settings-daemon, gnome-shell, xdg-desktop-portal-gnome, xwayland
+Recommends: gnome-session-xsession
+Suggests: desktop-base, gnome-keyring
+Provides: x-session-manager
+Section: gnome
+Priority: optional
+Homepage: https://
+Description: GNOME Session Manager
+ The GNOME Session Manager is in charge of starting the core components
+ of the GNOME desktop, and applications that should be launched at
+ login time. It also features a way to save and restore currently
+ running applications.
+ .
+ This package contains the required components for the standard GNOME
+ session, based on the GNOME Shell. It can be started from a display
+ manager such as GDM, and requires 3D acceleration to work properly.

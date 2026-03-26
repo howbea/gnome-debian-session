@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Debian on Wayland
+Comment=This session logs you into Debian
+Exec=/usr/bin/gnome-session --session=debian
+TryExec=/usr/bin/gnome-session
+Type=Application
+DesktopNames=Debian;GNOME
+X-GDM-SessionRegisters=true
+X-GDM-CanRunHeadless=true
