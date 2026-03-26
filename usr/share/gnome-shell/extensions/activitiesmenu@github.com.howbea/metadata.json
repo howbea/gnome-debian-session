@@ -1,0 +1,11 @@
+{
+  "name": "Activities Menu",
+  "description": "Activities menu",
+  "uuid": "activitiesmenu@github.com.howbea",
+  "gettext-domain": "activitiesmenu@github.com.howbea",
+  "shell-version": [
+    "47",
+    "48",
+    "49"
+  ]
+}
