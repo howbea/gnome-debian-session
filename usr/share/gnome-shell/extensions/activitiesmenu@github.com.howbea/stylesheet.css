@@ -1,10 +1,4 @@
 /* Add your custom extension styling here */
-
-#panel .panel-button#panelActivitiesMenu StBoxLayout {
-  padding: 0 6px;
-  spacing: 6px;
-}
-
 #panel .panel-button#panelActivitiesMenu StBoxLayout {
       padding: 0 0.2045em;
       spacing: 5px; }
@@ -14,20 +8,13 @@
   icon-size: 16px;
 }
 
-
-.main-menu .popup-sub-menu .popup-menu-item .panel-apps-favorites-box
-{}
-  
-#panelActivitiesMenu {
-}
-
 .popup-menu.panel-menu .user-icon {
   icon-size: 2.75em;
 }
 
 .popup-menu.panel-menu .user-widget.horizontal {
     spacing: 12px;
-    padding: 6px ;
+    padding: 9px;
     padding-bottom: 9px;
 }
 
@@ -36,11 +23,6 @@
   font-weight: bold;
 }
 
-  
-
-.main-menu .items-box {
-spacing: 9px;
-}
 .space-widget {
 width: 0em;
 }
@@ -51,8 +33,8 @@ width: 0em;
     width: 0 !important; }
     
     .main-menu {
-  min-width: 16em;
-  width: 18.5em;
+  min-width: 18em;
+  width: 16em;
   border-radius: 32px;}
   .main-menu .popup-menu-ornament {
     width: 0 !important; }
@@ -65,8 +47,7 @@ width: 0em;
   .main-menu .popup-sub-menu .popup-menu-item > :first-child:ltr {
     margin-left: 0.35em; }
   .main-menu .popup-sub-menu .popup-menu-item > :first-child:rtl {
-    margin-right: 0.35em; }
-    
+    margin-right: 0.35em; }    
   .main-menu .popup-sub-menu .items-item > :first-child:ltr {
     margin-left: 0em; }
   .main-menu .popup-sub-menu .items-item > :first-child:rtl {

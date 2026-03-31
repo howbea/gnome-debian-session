@@ -80,7 +80,7 @@ class ActivitiesMenuButton extends PanelMenu.Button {
         this.menu.actor.add_style_class_name('main-menu');
 
         let menuLayout = new AggregateLayout();
-        //this.menu.box.set_layout_manager(menuLayout);
+        this.menu.box.set_layout_manager(menuLayout);
 
         this.set({
             name: 'panelActivitiesMenu',
@@ -145,7 +145,7 @@ class ActivitiesMenuButton extends PanelMenu.Button {
         Main.sessionMode.connect('updated', this._sessionUpdated.bind(this));
         this._sessionUpdated();
         
-        this.smappsitem = new PopupMenu.PopupSubMenuMenuItem(_('Recent Items'), false ,{style_class: 'smapps-item'});
+        this.smappsitem = new PopupMenu.PopupSubMenuMenuItem(_('Recent Items'), false, {style_class: 'smapps-item'});
         //this.smappsitem.icon.icon_name = 'document-open-recent-symbolic';
 
         this._showingSignal = Main.overview.connect('showing', () => {
@@ -227,7 +227,7 @@ class ActivitiesMenuButton extends PanelMenu.Button {
         }
 
         this._sessionSubMenu = new PopupMenu.PopupSubMenuMenuItem(
-            _('Power Off'), false, {}); //true, {});
+            _('Power Off'), false, {});
         //this._sessionSubMenu.icon.icon_name = 'system-shutdown-symbolic';
         
         //item = new PopupMenu.PopupImageMenuItem(_('Lock'), 'changes-prevent-symbolic');
@@ -280,19 +280,6 @@ class ActivitiesMenuButton extends PanelMenu.Button {
             
         this._sessionSubMenu.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         
-        function getName() {
-            return user.get_real_name() || user.get_user_name();
-        }
-        
-        this.item = new PopupMenu.PopupMenuItem('');
-        
-        this.update = () => {
-            let name = getName();
-            this.item.label.text = _('Log Out %s…').format(name);
-        };
-        
-        //this.update();        
-        
         item = new PopupMenu.PopupMenuItem(_('Log Out…'));
         item.connect('activate', () => {
             this.menu.itemActivated(BoxPointer.PopupAnimation.NONE);
@@ -316,41 +303,18 @@ class ActivitiesMenuButton extends PanelMenu.Button {
         this._systemActions.bind_property('can-switch-user',
             this._loginScreenItem, 'visible',
             bindFlags);
-        
-        /*let aboutapp = this._settingsAboutApp = Shell.AppSystem.get_default().lookup_app(
-            'gnome-about-panel.desktop');
-        if (aboutapp) {
-            const [icon] = aboutapp.app_info.get_icon().names;
-            const name = aboutapp.app_info.get_name();
-            item = new PopupMenu.PopupMenuItem(name);
-            item.connect('activate', () => {
-                this.menu.itemActivated(BoxPointer.PopupAnimation.NONE);
-                Main.overview.hide();
-                this._settingsAboutApp.activate();
-            });
-            this._sessionSubMenu.menu.addMenuItem(item);
-            this._settingsAboutItem = item;
-        } else {
-            log('Missing required core component Settings, expect trouble…');
-            this._settingsAboutItem = new St.Widget();
-        }*/
-
-        //this.menu.addMenuItem(this._sessionSubMenu);
     }
     
     add_item(app) {
         const space_widget = new St.Widget({style_class: 'space-widget'});
         let item = new PopupMenu.PopupMenuItem('', {style_class: 'items-item'}); //BaseMenuItem;
         this.smappsitem.menu.addMenuItem(item);
-        //let box = new St.BoxLayout({vertical: false, style_class: 'items-box'});
-        //item.actor.add_child(box);
         let icon = app.create_icon_texture(16);
         item.insert_child_at_index(icon, 0);
         item.insert_child_at_index(space_widget, 0);
-        //box.add_child(icon);
         let label = new St.Label({text: app.get_name(),
                                   y_align: Clutter.ActorAlign.CENTER,});
-        //box.add_child(label);
+                                  
         item.label.text = app.get_name();
         
         item.connect("activate", () => {
@@ -380,7 +344,7 @@ class ActivitiesMenuButton extends PanelMenu.Button {
         this.smappsitem.menu.addMenuItem(separator2);
         this.smappsitem.menu.addMenuItem(separator, 0);
         
-        const MAX_ITEMS = 5; //this._settings.get_int('max-items'); // ← gsettings から取得
+        const MAX_ITEMS = 5; //this._settings.get_int('max-items');
 
     const bookmark = new GLib.BookmarkFile();
     const xbelPath = GLib.build_filenamev([
@@ -400,14 +364,12 @@ class ActivitiesMenuButton extends PanelMenu.Button {
             return;
         }
 
-        // 最新順に並び替え
         const sorted = items.sort((a, b) => {
             const ta = bookmark.get_modified(a);
             const tb = bookmark.get_modified(b);
             return tb - ta;
         });
 
-        // ★ 表示用に最大 MAX_ITEMS 件集める
         const filteredItems = [];
 
         for (const uri of sorted) {
@@ -416,12 +378,10 @@ class ActivitiesMenuButton extends PanelMenu.Button {
 
             const file = Gio.File.new_for_uri(uri);
 
-            // 1) ファイルがない → スキップ
             if (!file.query_exists(null)) {
                 continue;
             }
 
-            // 2) ディレクトリ → スキップ
             const infoBasic = file.query_info(
                 'standard::type',
                 Gio.FileQueryInfoFlags.NONE,
@@ -434,7 +394,6 @@ class ActivitiesMenuButton extends PanelMenu.Button {
             filteredItems.push(uri);
         }
 
-        // ★ 表示
         if (filteredItems.length === 0) {
             this._indicator.menu.addMenuItem(
                 new PopupMenu.PopupMenuItem("No recent files", { reactive: false, style_class: 'items-item'})
@@ -469,7 +428,6 @@ class ActivitiesMenuButton extends PanelMenu.Button {
 
             item.connect('activate', () => {
 
-    // ★ XBEL のパス
     const xbelPath = GLib.build_filenamev([
         GLib.get_home_dir(),
         '.local/share/recently-used.xbel'
@@ -479,20 +437,16 @@ class ActivitiesMenuButton extends PanelMenu.Button {
         const bookmark2 = new GLib.BookmarkFile();
         bookmark2.load_from_file(xbelPath);
 
-        // ★ now を UNIX タイムスタンプ（秒）で取得
         //const now = Math.floor(Date.now() / 1000);
 
-        // ★ タイムスタンプ更新
         //bookmark2.set_modified(uri, now);
 
-        // ★ 保存
         //bookmark2.to_file(xbelPath);
 
     } catch (e) {
         log(`XBEL update error: ${e}`);
     }
 
-    // ★ 最後にファイルを開く
     Gio.AppInfo.launch_default_for_uri(uri, null);
 });
             
@@ -500,7 +454,6 @@ class ActivitiesMenuButton extends PanelMenu.Button {
         }
 
     } catch (e) {
-        //this.smappsitem._indicator.menu.addMenuItem(
         this.smappsitem.menu.addMenuItem(
             new PopupMenu.PopupMenuItem(`Error: ${e}`, { reactive: false })
         );
@@ -517,17 +470,20 @@ class ActivitiesMenuButton extends PanelMenu.Button {
         
         this.submenubuild();        
         
+        //let itemsettings = new PopupMenu.PopupImageMenuItem(_('Settings'), 'org.gnome.Settings-symbolic');
         let itemsettings = new PopupMenu.PopupMenuItem(_('Settings'));
         itemsettings.connect('activate', () => {
         Shell.AppSystem.get_default().lookup_app('org.gnome.Settings.desktop').activate();
         });
         
+        //let itemsoftware = new PopupMenu.PopupImageMenuItem(_('Software Updates'), 'org.gnome.Software-symbolic');
         let itemsoftware = new PopupMenu.PopupMenuItem(_('Software Updates'));
         itemsoftware.connect('activate', () => {
         //Shell.AppSystem.get_default().lookup_app('org.gnome.Software.desktop').activate();
         Util.spawn(['gnome-software', '--mode=updates']);
         });
         
+        //let itemhelp = new PopupMenu.PopupImageMenuItem(_('Help'), 'help-browser-symbolic');
         let itemhelp = new PopupMenu.PopupMenuItem(_('Help'));
         itemhelp.connect('activate', () => {
             if (Shell.AppSystem.get_default().lookup_app('yelp.desktop')) {
@@ -542,7 +498,9 @@ class ActivitiesMenuButton extends PanelMenu.Button {
         //this.menu.box.add_child(this._userWidget);        
         this.menu.addMenuItem(itemsearch);
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());        
-        this.menu.addMenuItem(itemsoftware);        
+
+        
+        this.menu.addMenuItem(itemsoftware);
         this.menu.addMenuItem(itemsettings);
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         this.menu.addMenuItem(this.smappsitem);
