@@ -1,6 +1,6 @@
 # GNOME Debian Session
 
-A minimal GNOME session for Debian.
+A smooth GNOME session for Debian.
 
 ## Concept
 
@@ -11,7 +11,6 @@ A minimal GNOME session for Debian.
 ## Features
 
 - Clean GNOME session
-- Minimal menu adjustments
 - Debian-friendly defaults
 
 ## Screenshot
